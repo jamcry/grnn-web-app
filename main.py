@@ -67,5 +67,20 @@ def reset():
     remove(file_path)
     return redirect("/")
 
+@app.route("/train_model", methods=["POST"])
+def train_model():
+    model_args = request.form
+    target_column, sigma, std, test_set_percentage = model_args["target_column"], model_args["sigma"], model_args["std"], model_args["test_set_percentage"]
+    output_text = f"""
+    <h3>Will train GRNN with following parameters.</h3>
+    <ul>
+    <li><b>Target Feature:</b> {target_column}</li> 
+    <li><b>Smoothing Factor (σ):</b> {sigma}</li> 
+    <li><b>Standard Deviation (std):</b> {std}</li> 
+    <li><b>Test Set Ratio (%):</b> {test_set_percentage}</li> 
+    </ul>
+    """
+    return output_text
+
 if __name__ == "__main__":
     ui.run()

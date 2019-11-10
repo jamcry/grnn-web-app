@@ -15,20 +15,20 @@ class Slider extends React.Component {
     componentDidMount = () => { this.setState({ value: this.props.value || 50 }) }
     handleChange = e => { this.setState({ value: e.target.value }) }
     render() {
-        const { name, min, max, step } = this.props;
+        const { title, name, min, max, step } = this.props;
         const { value } = this.state;
         return (
             <div className="row">
-                <div className="col s10 m5">
+                <div className="col s11 m11">
                     <p className="range-field">
-                        <label htmlFor="std">
-                            {name}
+                        <h6 htmlFor="std" class="black-text">
+                            {title}
                             <input onChange={this.handleChange} value={value} type="range" name={name} min={min || 0} max={max || 100} step={step || 5} />
-                        </label>
+                        </h6>
                     </p>
                 </div>
-                <div className="col s2 m5">
-                    <h5 id="std-value">{value}</h5>
+                <div className="col s1 m1">
+                    <h5 id="std-value">{value}{name==="test_set_percentage"&&"%"}</h5>
                 </div>
             </div>
         )
@@ -38,15 +38,16 @@ class Slider extends React.Component {
 class FeatureSelector extends React.Component {
     render() {
         const { optionList } = this.props
+        const options = optionList.map(item => <option key={item} value={item}>{item}</option>)
         return (
-            <div className="col s12">
+            <div className="row">
+            <div className="col s12 m12">
                 <h6>Target Feature (Output)</h6>
-                <select className="browser-default">
+                <select name="target_column" className="browser-default" required>
                     <option value="">Choose your option</option>
-                    {
-                        optionList.map(item => <option key={item} value={item}>{item}</option>)
-                    }
+                    { options }
                 </select>
+            </div>
             </div>
         )
     }
@@ -80,14 +81,16 @@ class Main extends React.Component {
             <div>
                 <h4>Configure Model Parameters</h4>
                 {this.state.isLoading && <h1><Loader /></h1>}
+                <form action="/train_model" method="POST">
                 {this.state.hasData &&
                     <FeatureSelector optionList={this.state.columns} />
                 }
-                <Slider name="Sigma" value=".5" min="0" max="1" step=".01" />
-                <Slider name="Std" value=".5" min="0" max="1" step=".01" />
-                <Slider name="Test%" value="33" min="0" max="100" step="1" />
+                <Slider title="Smoothing Factor (σ)" name="sigma" value="0.5" min="0" max="1" step=".01" />
+                <Slider title="Std Deviation (std)" name="std" value="0.5" min="0" max="1" step=".01" />
+                <Slider title="Test Set Ratio (%)" name="test_set_percentage" value="33" min="0" max="100" step="1" />
                 <a href="/dataview" className="btn grey darken-2">Back to Data View</a>
-                <a href="/" className="btn disabled right">Continue</a>
+                <button type="submit" className="btn right">Continue</button>
+                </form>
             </div>
         )
     }

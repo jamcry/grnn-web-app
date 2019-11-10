@@ -39,6 +39,7 @@ class CSVUploader extends React.Component {
     return (
       <div>
         <div className="csv-upload row">
+          { this.state.fileExists && <PreviousDatasetAlert /> }
           <h4>Upload Dataset</h4>
           <form action="/loadcsv" method="post" className="col m12 s12" encType="multipart/form-data">
             <div className="file-field input-field">
@@ -53,13 +54,6 @@ class CSVUploader extends React.Component {
             </div>
           </form>
         </div>
-        {
-          this.state.fileExists &&
-          <>
-            <hr />
-            <PreviousDatasetAlert />
-          </>
-        }
       </div>
     )
   }
