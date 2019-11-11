@@ -10,6 +10,9 @@ setup(
         'Flask',
         'flaskwebgui',
         'pandas',
-        'numpy'
+        'numpy',
+        'matplotlib',
+        'sklearn',
+        'neupy'
     ],
 )

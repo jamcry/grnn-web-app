@@ -4,6 +4,7 @@ from flaskwebgui import FlaskUI
 import pandas as pd
 import numpy as np
 from os import path, remove
+from grnn_helper import *
 
 # Create and config Flask app
 app = Flask(__name__)
@@ -69,18 +70,34 @@ def reset():
 
 @app.route("/train_model", methods=["POST"])
 def train_model():
-    model_args = request.form
-    target_column, sigma, std, test_set_percentage = model_args["target_column"], model_args["sigma"], model_args["std"], model_args["test_set_percentage"]
-    output_text = f"""
-    <h3>Will train GRNN with following parameters.</h3>
-    <ul>
-    <li><b>Target Feature:</b> {target_column}</li> 
-    <li><b>Smoothing Factor (σ):</b> {sigma}</li> 
-    <li><b>Standard Deviation (std):</b> {std}</li> 
-    <li><b>Test Set Ratio (%):</b> {test_set_percentage}</li> 
-    </ul>
-    """
-    return output_text
+    model_args = request.get_json()
+    target_column, sigma, test_size_percentage = model_args["target_column"], model_args["sigma"], model_args["test_size_percentage"]
+    df = pd.read_csv(file_path, sep=",")
+    model_result = handle_train_model(
+        dataframe=df,
+        target_column=target_column,
+        sigma=float(sigma),
+        test_size=(int(test_size_percentage)/100.0)
+    )
+    return jsonify(model_result)
+
+def handle_train_model(dataframe, target_column, sigma, test_size):
+    df = dataframe
+    # Check if there are empty cells
+    if df.isnull().sum().any(): return "There are NaN variables!"
+    target, features = feature_target_split_data(df, target_column)
+    #return(f"target: {target.shape} ** features: {features.shape}")
+    x_train, x_test, y_train, y_test = train_test_split_data(
+        features,
+        target.reshape(-1,1),
+        test_size=test_size,
+        #scale=False
+    )
+    nw = create_grnn(sigma=sigma)
+    nw.train(x_train, y_train)
+    y_predicted = nw.predict(x_test)
+    mse, r2 = get_errors(y_predicted, y_test)
+    return {'mse':mse, 'r2':r2}
 
 if __name__ == "__main__":
     ui.run()

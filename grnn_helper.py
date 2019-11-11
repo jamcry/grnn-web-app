@@ -15,11 +15,10 @@ def feature_target_split_data(dataframe, target_column, axis=1):
 def train_test_split_data(features, target, test_size=30, random_state=42, scale=True):
     if(scale==True):
         # Normalizes the values with min-max scaling (between 0 and 1)
-        features = preprocessing.minmax_scale(features), 
+        features = preprocessing.minmax_scale(features)
         target = preprocessing.minmax_scale(target)
-        
     X_train, X_test, y_train, y_test = train_test_split(
-        features, target.reshape(-1, 1), test_size=test_size, random_state=random_state
+        np.array(features), np.array(target).reshape(-1,1), test_size=test_size, random_state=random_state
     )
     return X_train, X_test, y_train, y_test
 
@@ -34,12 +33,13 @@ def get_errors(predicted, actual):
     r2 = metrics.r2_score(actual, predicted) # R-squared Score (1 is the best)
     print("mse: ", mse, " (The smaller the better)")
     print("r2 : ", r2, " (Best is 1)")
+    return mse, r2
 
 # Shows scatter plot with data_1 and data_2 values
 def plot_scatter_comparison(data_1, label_1, data_2, label_2, figsize=(15,10), dpi=80, size=150):
     get_range = lambda dataset : np.array([i for i in range(len(dataset))]).reshape(-1, 1)
     range_1, range_2 = get_range(data_1), get_range(data_2)
-    figure(num=None, figsize=figsize, dpi=dpi)
+    plt.figure(num=None, figsize=figsize, dpi=dpi)
     plt.scatter(data_1, range_1, c='b', label=label_1, s=size)
     plt.scatter(data_2, range_2, c='r', label=label_2, s=size)
     plt.legend()
