@@ -5,8 +5,19 @@ const SubmitButton = ({ name }) => (
 )
 
 const Loader = () => (
-    <div className="progress">
-        <div className="indeterminate"></div>
+    <div className="container" style={{ textAlign: "center", padding: "2rem" }}>
+        <div className="preloader-wrapper big active">
+            <div className="spinner-layer spinner-green-only">
+                <div className="circle-clipper left">
+                    <div className="circle"></div>
+                </div><div className="gap-patch">
+                    <div className="circle"></div>
+                </div><div className="circle-clipper right">
+                    <div className="circle"></div>
+                </div>
+            </div>
+        </div>
+        <p className="flow-text">Loading...</p>
     </div>
 )
 
@@ -61,7 +72,8 @@ class Main extends React.Component {
         isTraining: false,
         isTrained: false,
         mse: null,
-        r2: null
+        r2: null,
+        plot_html: null
     }
 
     componentDidMount = () => {
@@ -103,6 +115,7 @@ class Main extends React.Component {
             this.setState({
                 mse: data.mse,
                 r2: data.r2,
+                fig_encoded: data.fig_encoded,
                 isTraining: false,
                 isTrained: true
             })
@@ -138,12 +151,21 @@ class Main extends React.Component {
                 <a href="/dataview" className="btn grey darken-2">Back to Data View</a>
                 <button type="submit" className="btn right">Continue</button>
                 </form>
-                {this.state.isTraining && <h1><Loader /></h1>}
+                <br/><hr/>
+                {this.state.isTraining && <div className="col s6 öm6"><Loader /></div>}
                 {!this.state.isTraining && this.state.isTrained && 
-                <div>
-                    <h4>Results</h4>
-                    <h6><b>MSE:</b> {this.state.mse}</h6>
-                    <h6><b>R2:</b> {this.state.r2}</h6>
+                <div className="flow-text">
+                    <h4>Model Error Scores</h4>
+                    <ul className="collection">
+                        <li className="collection-item">
+                            <b>MSE:</b> {this.state.mse}
+                        </li>
+                        <li className="collection-item">
+                            <b>R^2:</b> {this.state.r2}
+                        </li>
+                    </ul>
+                    <h4>Scatter Plot</h4>
+                    <img className="responsive-img" src={"data:image/png;base64," + this.state.fig_encoded}/>
                 </div>}
             </div>
         )

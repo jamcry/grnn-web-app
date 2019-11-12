@@ -4,6 +4,8 @@ import pandas as pd
 from sklearn import preprocessing, metrics
 from sklearn.model_selection import train_test_split
 from neupy import algorithms
+from io import BytesIO
+import base64
 
 # Splits the dataset into target(output) and features(input) subsets
 def feature_target_split_data(dataframe, target_column, axis=1):
@@ -36,11 +38,20 @@ def get_errors(predicted, actual):
     return mse, r2
 
 # Shows scatter plot with data_1 and data_2 values
-def plot_scatter_comparison(data_1, label_1, data_2, label_2, figsize=(15,10), dpi=80, size=150):
+def plot_scatter_comparison(data_1, label_1, data_2, label_2, figsize=(15,10), dpi=80, size=150, return_html=True):
     get_range = lambda dataset : np.array([i for i in range(len(dataset))]).reshape(-1, 1)
     range_1, range_2 = get_range(data_1), get_range(data_2)
-    plt.figure(num=None, figsize=figsize, dpi=dpi)
+    fig = plt.figure(num=None, figsize=figsize, dpi=dpi)
     plt.scatter(data_1, range_1, c='b', label=label_1, s=size)
     plt.scatter(data_2, range_2, c='r', label=label_2, s=size)
     plt.legend()
     plt.grid(True)
+    if (return_html==True):
+        # Create a temporary file in memory
+        tmp_file = BytesIO()
+        # Save figure to temporary file as png
+        fig.savefig(tmp_file, format="png")
+        # Encode the png file with base64
+        fig_encoded = base64.b64encode(tmp_file.getvalue()).decode("utf-8")
+        # Return the encoded figure
+        return fig_encoded

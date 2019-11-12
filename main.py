@@ -97,7 +97,16 @@ def handle_train_model(dataframe, target_column, sigma, test_size):
     nw.train(x_train, y_train)
     y_predicted = nw.predict(x_test)
     mse, r2 = get_errors(y_predicted, y_test)
-    return {'mse':mse, 'r2':r2}
+    fig_encoded = plot_scatter_comparison(
+        data_2=y_predicted,
+        label_2="Prediction",
+        data_1=y_test,
+        label_1="Actual",
+        return_html=True,
+        dpi=120,
+        size=50
+    )
+    return {'mse': mse, 'r2': r2, 'fig_encoded': fig_encoded}
 
 if __name__ == "__main__":
     ui.run()
