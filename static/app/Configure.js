@@ -148,8 +148,10 @@ class Main extends React.Component {
                     min="0" max="100" step="1"
                     onChange={this.handleChange}
                 />
-                <a href="/dataview" className="btn grey darken-2">Back to Data View</a>
-                <button type="submit" className="btn right">Continue</button>
+                <a href="/dataview" className="btn grey darken-2">Back to Data View
+                <i className="material-icons left">chevron_left</i></a>
+                <button type="submit" className="btn right">Continue
+                <i className="material-icons right">chevron_right</i></button>
                 </form>
                 <br/><hr/>
                 {this.state.isTraining && <div className="col s6 öm6"><Loader /></div>}

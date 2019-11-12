@@ -15,9 +15,11 @@ const PreviousDatasetAlert = () => (
         </p>
         <div className="row right">
 
-          <a href="/reset" className="btn red darken-2 white-text">REMOVE</a>
+          <a href="/reset" className="btn red darken-2 white-text">REMOVE
+          <i className="material-icons left">delete</i></a>
           {" "}
-          <a href="/dataview" className="btn blue lighten-1 white-text">Check Dataset</a>
+          <a href="/dataview" className="btn blue lighten-1 white-text">Check Dataset
+          <i className="material-icons left">find_in_page</i></a>
         </div>
       </div>
     </div>
@@ -44,7 +46,10 @@ class CSVUploader extends React.Component {
           <form action="/loadcsv" method="post" className="col m12 s12" encType="multipart/form-data">
             <div className="file-field input-field">
               <div className="btn grey darken-2">
-                <span>Select CSV</span>
+                <span>
+                  Select CSV
+                  <i className="material-icons left">queue</i>
+                </span>
                 <input type="file" name="csv_file" />
               </div>
               <div className="file-path-wrapper row">

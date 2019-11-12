@@ -40,21 +40,35 @@ class DataViewer extends React.Component {
                     :
                     <div>
                         <div className="row">
-                            <div className="col">
+                            <div className="col s12 m12">
                                 {// !!!! WARNING: HTML parsing is vulnerable to XSS. Just for development! 
                                 }
                                 <div dangerouslySetInnerHTML={{ __html: dataAsTableHTML }} />
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="col">
-                                <h6>Columns</h6>
-                                {columns.map(col => <li key={"li_" + col}>{col}</li>)}
+                        <div className="row flow-text">
+                            <div className="col s12 m8 l8">
+                                <h4>Columns</h4>
+                                <ul className="collection">
+                                {columns.map(col => (
+                                    <div className="chip" key={"li_" + col}>
+                                        {col}
+                                    </div>
+                                ))}
+                                </ul>
                             </div>
-                            <div className="col">
-                                <h6>Sizes</h6>
-                                <p><b><span className="badge green white-text">{shape[1]}</span>Features</b></p>
-                                <p><b><span className="badge">{shape[0]}</span>Rows</b></p>
+                            <div className="col s12 m4 l4">
+                                <h4>Sizes</h4>
+                                <ul className="collection">
+                                    <li className="collection-item">
+                                    <span class="new badge right white-text" style={{fontSize:"1.5rem",fontWeight:"bold"}} data-badge-caption="">{shape[1]}</span>
+                                        Features
+                                    </li>
+                                    <li className="collection-item">
+                                    <span class="new badge right white-text grey darken-2" style={{fontSize:"1.5rem",fontWeight:"bold"}} data-badge-caption="">{shape[0]}</span>
+                                        Rows
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -69,8 +83,10 @@ const Main = () => {
         <div>
             <h4>Check Your Data</h4>
             <DataViewer />
-            <a href="/" className="btn grey darken-2">Back to Upload</a>
-            <a href="/configure" className="btn right">Continue</a>
+            <a href="/" className="btn grey darken-2">Back to Upload
+            <i className="material-icons left">chevron_left</i></a>
+            <a href="/configure" className="btn right">Continue
+            <i className="material-icons right">chevron_right</i></a>
         </div>
     )
 }
