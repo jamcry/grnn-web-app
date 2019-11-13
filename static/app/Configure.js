@@ -73,7 +73,8 @@ class Main extends React.Component {
         isTrained: false,
         mse: null,
         r2: null,
-        plot_html: null
+        plot_html: null,
+        train_error: null
     }
 
     componentDidMount = () => {
@@ -111,14 +112,16 @@ class Main extends React.Component {
         })
         .then(res => res.json())
         .then(data => {
+            console.log(data)
             // Save error variables to state after training
             this.setState({
                 mse: data.mse,
                 r2: data.r2,
                 fig_encoded: data.fig_encoded,
+                train_error: data.train_error,
                 isTraining: false,
                 isTrained: true
-            })
+            }, console.log(this.state))
         });
     }
 
@@ -154,21 +157,32 @@ class Main extends React.Component {
                 <i className="material-icons right">chevron_right</i></button>
                 </form>
                 <br/><hr/>
-                {this.state.isTraining && <div className="col s6 öm6"><Loader /></div>}
-                {!this.state.isTraining && this.state.isTrained && 
-                <div className="flow-text">
-                    <h4>Model Error Scores</h4>
-                    <ul className="collection">
-                        <li className="collection-item">
-                            <b>MSE:</b> {this.state.mse}
-                        </li>
-                        <li className="collection-item">
-                            <b>R^2:</b> {this.state.r2}
-                        </li>
-                    </ul>
-                    <h4>Scatter Plot</h4>
-                    <img className="responsive-img" src={"data:image/png;base64," + this.state.fig_encoded}/>
-                </div>}
+                {this.state.isTraining && <div className="col s6 m6"><Loader /></div>}
+                {!this.state.train_error && !this.state.isTraining && this.state.isTrained && 
+                    <div className="flow-text">
+                        <h4>Model Error Scores</h4>
+                        <ul className="collection">
+                            <li className="collection-item">
+                                <b>MSE:</b> {this.state.mse}
+                            </li>
+                            <li className="collection-item">
+                                <b>R^2:</b> {this.state.r2}
+                            </li>
+                        </ul>
+                        <h4>Scatter Plot</h4>
+                        <img className="responsive-img" src={"data:image/png;base64," + this.state.fig_encoded}/>
+                    </div>
+                }
+                { // Handle errors
+                    this.state.train_error &&
+                    <div>
+                    <h4>Model returned error</h4>
+                    <p>Error: </p>
+                    <blockquote>
+                        {this.state.train_error}
+                    </blockquote>
+                    </div>
+                }
             </div>
         )
     }

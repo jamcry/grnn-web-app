@@ -79,6 +79,7 @@ def train_model():
         sigma=float(sigma),
         test_size=(int(test_size_percentage)/100.0)
     )
+    print("model result: ", model_result)
     return jsonify(model_result)
 
 def handle_train_model(dataframe, target_column, sigma, test_size):
@@ -87,12 +88,18 @@ def handle_train_model(dataframe, target_column, sigma, test_size):
     if df.isnull().sum().any(): return "There are NaN variables!"
     target, features = feature_target_split_data(df, target_column)
     #return(f"target: {target.shape} ** features: {features.shape}")
-    x_train, x_test, y_train, y_test = train_test_split_data(
-        features,
-        target.reshape(-1,1),
-        test_size=test_size,
-        #scale=False
-    )
+    try:
+        x_train, x_test, y_train, y_test = train_test_split_data(
+            features,
+            target.reshape(-1,1),
+            test_size=test_size,
+            #scale=False
+        )
+    except ValueError as e:
+        print("caught error")
+        return {"train_error":"ValueError"}
+        print("returned")
+
     nw = create_grnn(sigma=sigma)
     nw.train(x_train, y_train)
     y_predicted = nw.predict(x_test)
