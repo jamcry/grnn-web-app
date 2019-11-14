@@ -75,6 +75,7 @@ def train_model():
         sigma=float(sigma),
         test_size=(int(test_size_percentage)/100.0)
     )
+    print("model result: ", model_result)
     return jsonify(model_result)
 
 @app.route("/help")
