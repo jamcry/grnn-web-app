@@ -5,14 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../static/materialize.css">
-    <link rel="stylesheet" href="../static/style.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- React and ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <!-- Babel standalone -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="../static/materialize.js"></script>
-    <title>GRNN Web App</title>
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>View Dataset | GRNN Web App</title>
 </head>
 
 <body>
@@ -21,11 +22,12 @@
         <a href="/" class="brand-logo" style="margin-left:1rem">GRNN Train & Test</a>
         <ul id="nav-mobile" class="right">
             <li><a href="/"><span><i class="material-icons">home</i></span></a></li>
+            <li><a href="/help"><span><i class="material-icons">help</i></span></a></li>
         </ul>
       </div>
     </nav>
     <div id="root" class="container"></div>
-    <script type="text/babel" src="../static/app/DataView.js"></script>
+    <script type="text/babel" src="../static/js/DataView.js"></script>
 </body>
 
 </html>

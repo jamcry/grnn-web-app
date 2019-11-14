@@ -29,20 +29,23 @@ const PreviousDatasetAlert = () => (
 
 class CSVUploader extends React.Component {
   state = {
-    fileExists: false
+    datasetExists: false
   }
   componentDidMount = () => {
-    const file_exists = document.getElementById("root").getAttribute("file-exists")
+    const dataset_exists = document.getElementById("root").getAttribute("dataset-exists")
     this.setState({
-      fileExists: file_exists === "True"
+      datasetExists: dataset_exists === "True"
     })
   }
   render() {
     return (
       <div>
         <div className="csv-upload row">
-          { this.state.fileExists && <PreviousDatasetAlert /> }
+          { this.state.datasetExists && <PreviousDatasetAlert /> }
           <h4>Upload Dataset</h4>
+          <p>
+            Select and submit a dataset with csv extension to use in GRNN model. 
+          </p>
           <form action="/loadcsv" method="post" className="col m12 s12" encType="multipart/form-data">
             <div className="file-field input-field">
               <div className="btn grey darken-2">
