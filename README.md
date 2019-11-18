@@ -3,6 +3,7 @@
 
 This is an web application for modeling, training and testing General Regression Neural Networks (GRNN). It is developed with Flask and React. It helps you tweak model parameters to achieve better error scores.
 
+Demo can be seen [here](http://grnn-web-app.appspot.com/).
 ## Installation
 It is optional yet advised to run the app inside a virtual environment. venv can be used as follows. Make sure you are in the project directory!
 
